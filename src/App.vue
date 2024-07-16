@@ -1,26 +1,14 @@
 <script setup>
   import { reactive } from "vue";
-  import cabecalho from "./components/cabecalho.vue";
-  import Formulario from "./components/Form"
+
+  import Cabecalho from "./components/Cabecalho.vue"
+  import Formulario from "./components/Formulario.vue"
   import ListaDeTarefas from "./components/ListaDeTarefas.vue"
 
   const estado = reactive({
     filtro: 'todas',
     tarefaTemp: '',
-    tarefas: [
-      {
-        titulo: 'Estudar ES6+',
-        finzalizada: false
-      },
-      {
-        titulo: 'Estudar SASS',
-        finzalizada: false
-      },
-      {
-        titulo: 'Ir para a academia',
-        finzalizada: true,
-      },
-    ]
+    tarefas: []
   })
 
   const getTarefasPendentes = () => {
@@ -57,14 +45,8 @@
 
 <template>
   <div class="container">
-    <Cabecalho />
-    <Formulario />
-    <ListaDeTarefas />
+    <Cabecalho :tarefas-pendentes= "getTarefasPendentes().length"/>
+    <Formulario :trocar-filtro="evento => estado.filtro = evento.target.value" :tarefa-temp="estado.tarefaTemp" :edita-tarefa-temp="evento => estado.tarefaTemp = evento.target.value" :cadastra-tarefa="cadastraTarefa"/>
+    <ListaDeTarefas :tarefas="getTarefasFiltradas()"/>
   </div>  
 </template>
-
-<style scoped>
-  .done {
-    text-decoration: line-through;
-  }
-</style>
